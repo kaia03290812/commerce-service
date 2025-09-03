@@ -49,12 +49,6 @@ public class Order {
     @Column(name = "status", nullable = false, length = 20)
     private Status status = Status.PENDING;
 
-    @PrePersist
-    public void generateOrderNumber() {
-        if (orderNumber == null) {
-            orderNumber = "ORD" + System.currentTimeMillis();
-        }
-    }
 
     public enum Status {
         PENDING,    // 建立訂單、未付款
