@@ -1,22 +1,23 @@
 package com.gtelant.commerce_servise.model;
 
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
-@Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
+@Setter
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -52,9 +53,8 @@ public class User {
     private LocalDateTime deletedAt;
     @Column(name = "role")
     private String role;
-
-    @OneToMany (mappedBy = "user",cascade =CascadeType.ALL,fetch = FetchType.LAZY)
-    private List<UserSegment> userSagments;
-
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @ToString.Exclude
+    private Set<UserSegment> userSegments = new HashSet<>();
 
 }
