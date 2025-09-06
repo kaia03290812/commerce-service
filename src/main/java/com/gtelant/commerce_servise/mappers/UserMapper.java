@@ -93,16 +93,10 @@ public class UserMapper {
         if (StringUtils.hasText(request.getPassword())) {
             user.setPassword(passwordEncoder.encode(request.getPassword()));
         }
-        // 只有在前端真的有帶 hasNewsletter 時才更新，避免把原值誤蓋掉
         if (request.getHasNewsletter() != null) {
             user.setHasNewsletter(request.getHasNewsletter());
         }
-        // 若你有要同時更新 Segment 關聯（ManyToMany 或中介表）
         if (request.getSegmentIds() != null) {
-            // ManyToMany 版本（若 User 有 `Set<Segment> segments`）：
-            // Set<Segment> segs = new HashSet<>(segmentRepository.findAllById(request.getSegmentIds()));
-            // user.setSegments(segs);
-            // 若你使用 UserSegment 中介表，請在 Service 層處理新增/刪除 UserSegment，避免在 mapper 內做複雜邏輯。
         }
         return user;
     }
